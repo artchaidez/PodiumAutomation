@@ -19,7 +19,6 @@ import java.util.List;
 public class SeleniumControl extends AutoBase {
 
     // TODO delete all unused methods and fields
-    // TODO move all fields to the top
     protected By chromeLocator;
 
     protected WebElement cacheElement;
@@ -31,6 +30,14 @@ public class SeleniumControl extends AutoBase {
     public String getTagName() { return TagName; }
 
     public String TagName;
+
+    public By Locator;
+
+    public String LocatorValue;
+
+    public WebElement WebElement;
+
+
 
     public SeleniumControl(By chromeLocator) //taking out string Control name as param for now
     {
@@ -49,8 +56,6 @@ public class SeleniumControl extends AutoBase {
 
     public void setLocator(By locator) { Locator = this.chromeLocator; }
 
-    public By Locator;
-
     public By getLocator() { return this.chromeLocator; }
 
     public String getLocatorValue() {
@@ -59,8 +64,6 @@ public class SeleniumControl extends AutoBase {
         String byType = template.substring(0, idx);
         return byType.toLowerCase().replaceAll("by.", "");
     }
-
-    public String LocatorValue;
 
     public org.openqa.selenium.WebElement getWebElement()
     {
@@ -71,8 +74,6 @@ public class SeleniumControl extends AutoBase {
     {
         WebElement = webElement;
     }
-
-    public WebElement WebElement;
 
     public WebElement FindElement(int timeOut)
     {

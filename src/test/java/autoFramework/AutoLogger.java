@@ -9,7 +9,6 @@ import java.util.*;
 public class AutoLogger {
 
     // TODO Delete all unused methods and fields
-    // TODO move all fields to the top
     private TestContextLogger testContextLogger = new TestContextLogger();
 
     private int stepNumber = 1;

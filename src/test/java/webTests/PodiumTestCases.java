@@ -19,7 +19,7 @@ public class PodiumTestCases extends AutoBase {
     }
 
     // This should be a smoke test?
-    @Test
+    @Test (groups = {"smokeTest"})
     public void TestClickPodiumButton() throws Exception
     {
         Step("Go to Podium Website");
@@ -138,20 +138,17 @@ public class PodiumTestCases extends AutoBase {
         Step("Switch to iframe Podium modal");
         switchToiFrame("podium-modal");
 
-        Step("Click on 'use is subject to terms");
-        // both work: 'terms' and 'LocationSelector__PodiumPower'
+        Step("Click on 'use is subject to terms'");
+        // both classes work: 'terms' and 'LocationSelector__PodiumPower'
         SeleniumControl subjectTermsBtn = new SeleniumControl(By.xpath("//*[@class='LocationSelector__PodiumPower']"));
         subjectTermsBtn.Click(5);
 
-        Step("Switch to main frame");
-        switchToMainFrame();
-        Sleep(3);
+        switchToNewlyOpenTab();
 
-        Step("Click on Terms of Service"); // update this
-        // TODO: confirm new page opened
-        SeleniumControl termsBtn = new SeleniumControl(By.xpath("//*[contains(text(), 'Podium Acceptable Use Policy')]"));
-        //termsBtn.Click(5);
-        termsBtn.IsVisible(5);
+        Step("Click on Terms of Service");
+
+        SeleniumControl termsBtn = new SeleniumControl(By.xpath("//*[text()='Terms of Service']"));
+        termsBtn.Click(5);
         Info("Clicked on 'Terms of Service'");
 
     }
@@ -159,7 +156,6 @@ public class PodiumTestCases extends AutoBase {
     // TODO: Bug found, cannot click back button to Select Location widget
     // TODO: Should textbox search address options?
 
-    // TODO: Click on 'use is subject to terms' on bottom of Select Location widget
     // TODO: Select all 3 locations. Weird bug according to SDET, should be 4 locations
     // TODO: Input data into all 3 textfields. Do not need to click SEND
 }
