@@ -1,13 +1,10 @@
 package webTests;
 
 import autoFramework.AutoBase;
-import com.thoughtworks.selenium.webdriven.commands.IsVisible;
 import org.openqa.selenium.By;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import webTestFramework.SeleniumControl;
-
-import java.awt.event.WindowFocusListener;
 
 // TODO: Extend class to a class from Pages Package. This class will extend AutoBase
 public class PodiumTestCases extends AutoBase {
@@ -29,7 +26,7 @@ public class PodiumTestCases extends AutoBase {
         switchToiFrame("podium-bubble");
 
         Step("Click on Podium Bubble");
-        SeleniumControl podiumBtn = new SeleniumControl(By.xpath("//*[@class='ContactBubble__Bubble']"));
+        SeleniumControl podiumBtn = new SeleniumControl(By.className("ContactBubble__Bubble"));
         podiumBtn.Click(5);
         Info("Clicked on Podium bubble");
     }
@@ -45,7 +42,7 @@ public class PodiumTestCases extends AutoBase {
         switchToiFrame("podium-bubble");
 
         Step("Click on Podium Icon");
-        SeleniumControl podiumBtn = new SeleniumControl(By.xpath("//*[@class='ContactBubble__Bubble']"));
+        SeleniumControl podiumBtn = new SeleniumControl(By.className("ContactBubble__Bubble"));
         podiumBtn.Click(5);
         Info("Clicked on Podium bubble");
 
@@ -55,7 +52,7 @@ public class PodiumTestCases extends AutoBase {
         Step("Switch to iframe Podium modal");
         switchToiFrame("podium-modal");
 
-        Step("Click on first location in widget");
+        Step("Click on first location in modal");
         SeleniumControl locationBtn = new SeleniumControl(By.xpath("//*[@class='LocationContainer StaggerFadeIn3 LocationContainer--desktop']"));
         locationBtn.Click(5);
         Info("Clicked on first location");
@@ -79,7 +76,7 @@ public class PodiumTestCases extends AutoBase {
         switchToiFrame("podium-bubble");
 
         Step("Click on Podium Icon");
-        SeleniumControl podiumBtn = new SeleniumControl(By.xpath("//*[@class='ContactBubble__Bubble']"));
+        SeleniumControl podiumBtn = new SeleniumControl(By.className("ContactBubble__Bubble"));
         podiumBtn.Click(5);
         Info("Clicked on Podium bubble");
 
@@ -89,12 +86,12 @@ public class PodiumTestCases extends AutoBase {
         Step("Switch to iframe Podium modal");
         switchToiFrame("podium-modal");
 
-        Step("Click on first location in widget");
+        Step("Click on first location in modal");
         SeleniumControl locationBtn = new SeleniumControl(By.xpath("//*[@class='LocationContainer StaggerFadeIn3 LocationContainer--desktop']"));
         locationBtn.Click(5);
         Info("Clicked on first location");
 
-        // TODO: xpath class names for all three textfields all differ. Should be consistent
+        // TODO: xpath class names for all three textfields all differ. Should be consistent. Report this as a bug
         // NOTE: still within iframe podium-modal
         // NOTE: after opening message, Name already clicked
         Step("Input name in Name text field");
@@ -109,7 +106,7 @@ public class PodiumTestCases extends AutoBase {
         // maybe create new method to work with type=tel?
         SeleniumControl telephoneTextBox = new SeleniumControl(By.xpath("//*[@class= 'TextInput TextInput--tel']"));
         // TODO: Need to send numbers, not string. Need new method
-        telephoneTextBox.SetText(telephone, 5, null);
+        //telephoneTextBox.SetText(telephone, 5, null);
 
         SeleniumControl messageTextBox = new SeleniumControl(By.xpath("//*[@class= 'TextInput__Textarea ']"));
         messageTextBox.SetText(message, 5, null);
@@ -128,7 +125,7 @@ public class PodiumTestCases extends AutoBase {
         switchToiFrame("podium-bubble");
 
         Step("Click on Podium Bubble");
-        SeleniumControl podiumBtn = new SeleniumControl(By.xpath("//*[@class='ContactBubble__Bubble']"));
+        SeleniumControl podiumBtn = new SeleniumControl(By.className("ContactBubble__Bubble"));
         podiumBtn.Click(5);
         Info("Clicked on Podium bubble");
 
@@ -140,7 +137,7 @@ public class PodiumTestCases extends AutoBase {
 
         Step("Click on 'use is subject to terms'");
         // both classes work: 'terms' and 'LocationSelector__PodiumPower'
-        SeleniumControl subjectTermsBtn = new SeleniumControl(By.xpath("//*[@class='LocationSelector__PodiumPower']"));
+        SeleniumControl subjectTermsBtn = new SeleniumControl(By.className("LocationSelector__PodiumPower"));
         subjectTermsBtn.Click(5);
 
         switchToNewlyOpenTab();
@@ -153,8 +150,46 @@ public class PodiumTestCases extends AutoBase {
 
     }
 
-    // TODO: Bug found, cannot click back button to Select Location widget
-    // TODO: Should textbox search address options?
+    @Test
+    public void TestScoreboardOremLocationExists() throws Exception
+    {
+        String location = "Scoreboard Sports - Orem";
+
+        Step("Go to Podium Website");
+        GoToURL("https://demo.podium.tools/qa-webchat-lorw/");
+
+        Step("Switch to iframe Podium modal");
+        switchToiFrame("podium-bubble");
+
+        Step("Click on Podium Icon");
+        SeleniumControl podiumBtn = new SeleniumControl(By.xpath("//*[@class='ContactBubble__Bubble']"));
+        podiumBtn.Click(5);
+        Info("Clicked on Podium bubble");
+
+        Step("Switch to main frame");
+        switchToMainFrame();
+
+        Step("Switch to iframe Podium modal");
+        switchToiFrame("podium-modal");
+
+        Step(String.format("Confirm %s is in modal", location));
+        SeleniumControl locationBtn = new SeleniumControl(By.xpath(String.format("//*[contains(text(), \"%s\")]", location)));
+        locationBtn.IsVisible(5);
+        Info(String.format("%s is in the modal", location));
+
+        Step(String.format("Click on %s", location));
+        locationBtn.Click(5);
+
+        Step(String.format("Confirm %s opened up", location));
+        // TODO: confirm correct location opened up
+        SeleniumControl modalBtn = new SeleniumControl(By.xpath(String.format("//*[contains(text(), \"%s\")]", location)));
+        modalBtn.IsVisible(5);
+
+
+    }
+
+    // TODO: BUG: cannot click back button to Select Location modal
+    // TODO: BUG: Should search address textbox work?
 
     // TODO: Select all 3 locations. Weird bug according to SDET, should be 4 locations
     // TODO: Input data into all 3 textfields. Do not need to click SEND
