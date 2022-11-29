@@ -49,4 +49,14 @@ public class AutoBase extends AutoLogger{
         return webDriver;
     }
 
+    public void switchToiFrame(String iFrameID)
+    {
+        this.webDriver = webDriver.switchTo().frame(iFrameID);
+    }
+
+    public void switchToMainFrame()
+    {
+        this.webDriver = webDriver.switchTo().defaultContent();
+    }
+
 }

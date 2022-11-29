@@ -72,7 +72,6 @@ public class SeleniumControl extends AutoBase {
         WebElement = webElement;
     }
 
-
     public WebElement WebElement;
 
     public WebElement FindElement(int timeOut)
@@ -171,7 +170,7 @@ public class SeleniumControl extends AutoBase {
 
     public void Click(int Max_Retries) throws Exception
     {
-        if(Max_Retries == 0)
+        if (Max_Retries == 0)
             Max_Retries = 5;
 
         boolean clickable = false;
@@ -199,7 +198,6 @@ public class SeleniumControl extends AutoBase {
             {
                 innerException = FormatException(e);
                 Info("Element not found, Retrying...");
-                // Is this continue needed?
                 continue;
             } catch (Exception e)
             {

@@ -57,6 +57,6 @@ public class TestContextLogger  {
 
     public String FormatTimeStampMessage(String messageType, String message)
     {
-        return MessageFormat.format("[{0]} [{1}] {2}", myDateObj.format(myFormatObj), messageType, message);
+        return MessageFormat.format("[{0}] [{1}] {2}", myDateObj.format(myFormatObj), messageType, message);
     }
 }
