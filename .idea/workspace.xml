@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0e1405fc-bd1e-40ee-91ad-e4b4586a4c1a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/webTestFramework/SeleniumControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/webTestFramework/SeleniumControl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/webTests/PodiumTestCases.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/webTests/PodiumTestCases.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -127,6 +128,29 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
+    <configuration name="PodiumTestCases.TestReturnButtonDoesNotWork" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;webTests.PodiumTestCases.TestReturnButtonDoesNotWork&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
     <configuration name="PodiumTestCases.TestScoreboardOremLocationExists" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -150,36 +174,13 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="PodiumTestCases.TestSelectFirstLocation" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;webTests.PodiumTestCases.TestSelectFirstLocation&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.PodiumTestCases.TestScoreboardOremLocationExists" />
+        <item itemvalue="Gradle.PodiumTestCases.TestInputMessageData" />
+        <item itemvalue="Gradle.PodiumTestCases.TestReturnButtonDoesNotWork" />
         <item itemvalue="Gradle.PodiumTestCases.TestConfirmLocationDataCorrect" />
         <item itemvalue="Gradle.PodiumTestCases.TestClickSubjectTerms" />
-        <item itemvalue="Gradle.PodiumTestCases.TestInputMessageData" />
-        <item itemvalue="Gradle.PodiumTestCases.TestSelectFirstLocation" />
       </list>
     </recent_temporary>
   </component>
@@ -210,18 +211,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/webTests/PodiumTestCases.java</url>
-          <line>108</line>
-          <option name="timeStamp" value="22" />
+          <line>193</line>
+          <option name="timeStamp" value="33" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/webTests/PodiumTestCases.java</url>
-          <line>98</line>
-          <option name="timeStamp" value="25" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/webTests/PodiumTestCases.java</url>
-          <line>185</line>
-          <option name="timeStamp" value="30" />
+          <line>114</line>
+          <option name="timeStamp" value="34" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

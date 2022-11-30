@@ -1,12 +1,15 @@
 package webTests;
 
 import autoFramework.AutoBase;
+import jdk.jfr.Description;
 import org.openqa.selenium.By;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import webTestFramework.SeleniumControl;
 
 // TODO: Extend class to a class from Pages Package. This class will extend AutoBase
+// TODO: Run from command line
+// TODO: Make sure this all runs in Mac
 public class PodiumTestCases extends AutoBase {
 
     @BeforeTest
@@ -17,6 +20,7 @@ public class PodiumTestCases extends AutoBase {
 
     // This should be a smoke test?
     @Test (groups = {"smokeTest"})
+    @Description("Test to switch to correct iframe and click on Podium icon.")
     public void TestClickPodiumButton() throws Exception
     {
         Step("Go to Podium Website");
@@ -32,7 +36,8 @@ public class PodiumTestCases extends AutoBase {
     }
 
     // This should be a smoke test?
-    @Test
+    @Test (groups = {"smokeTest"})
+    @Description("Test to click on first location found in Location modal.")
     public void TestSelectFirstLocation() throws Exception
     {
         Step("Go to Podium Website");
@@ -61,7 +66,8 @@ public class PodiumTestCases extends AutoBase {
 
     // This should be a smoke test?
     // TODO: Complete TestInputMessageData
-    @Test
+    @Test (groups = {"smokeTest"})
+    @Description("Test to input data in all 3 fields of message modal")
     public void TestInputMessageData() throws Exception
     {
         String name = "Art";
@@ -106,7 +112,7 @@ public class PodiumTestCases extends AutoBase {
         // maybe create new method to work with type=tel?
         SeleniumControl telephoneTextBox = new SeleniumControl(By.xpath("//*[@class= 'TextInput TextInput--tel']"));
         // TODO: Need to send numbers, not string. Need new method
-        //telephoneTextBox.SetText(telephone, 5, null);
+        // telephoneTextBox.SetText(telephone, 5, null);
 
         SeleniumControl messageTextBox = new SeleniumControl(By.xpath("//*[@class= 'TextInput__Textarea ']"));
         messageTextBox.SetText(message, 5, null);
@@ -115,7 +121,8 @@ public class PodiumTestCases extends AutoBase {
     }
 
     // This should be a regression test?
-    @Test
+    @Test (groups = {"regressionTest"})
+    @Description("Test to confirm subject and terms are opened in a new tab.")
     public void TestClickSubjectTerms() throws Exception
     {
         Step("Go to Podium Website");
@@ -150,7 +157,8 @@ public class PodiumTestCases extends AutoBase {
 
     }
 
-    @Test
+    @Test (groups = {"smokeTest"})
+    @Description("Test to confirm correct location is being clicked in the modal")
     public void TestScoreboardOremLocationExists() throws Exception
     {
         String location = "Scoreboard Sports - Orem";
@@ -183,14 +191,53 @@ public class PodiumTestCases extends AutoBase {
         Step(String.format("Confirm %s opened up", location));
         // TODO: confirm correct location opened up
         SeleniumControl modalBtn = new SeleniumControl(By.xpath(String.format("//*[contains(text(), \"%s\")]", location)));
-        modalBtn.IsVisible(5);
 
+        // This works, but need a way to prove text
+        SeleniumControl modalText = new SeleniumControl(By.xpath("//*[@class='SendSmsPage__CurrentLocationName']"));
+        modalText.IsVisible(5);
 
     }
 
-    // TODO: BUG: cannot click back button to Select Location modal
+    @Test (groups = {"regressionTest"})
+    @Description("Test to prove there is a bug with the return arrow in the message modal.")
+    public void TestReturnButtonDoesNotWork() throws Exception
+    {
+        String name = "Art";
+
+        Step("Go to Podium Website");
+        GoToURL("https://demo.podium.tools/qa-webchat-lorw/");
+
+        Step("Switch to iframe Podium modal");
+        switchToiFrame("podium-bubble");
+
+        Step("Click on Podium Icon");
+        SeleniumControl podiumBtn = new SeleniumControl(By.className("ContactBubble__Bubble"));
+        podiumBtn.Click(5);
+        Info("Clicked on Podium bubble");
+
+        Step("Switch to main frame");
+        switchToMainFrame();
+
+        Step("Switch to iframe Podium modal");
+        switchToiFrame("podium-modal");
+
+        Step("Click on first location in modal");
+        SeleniumControl locationBtn = new SeleniumControl(By.xpath("//*[@class='LocationContainer StaggerFadeIn3 LocationContainer--desktop']"));
+        locationBtn.Click(5);
+        Info("Clicked on first location");
+
+        Step("Click on return arrow");
+        SeleniumControl returnArrowBtn = new SeleniumControl((By.xpath("//*[@class='SendSmsPage__ArrowIcon']")));
+        returnArrowBtn.Click(5);
+        Info("Successfully clicked on return arrow");
+
+        Step("Confirm message modal is still open by inputting text into name textbox");
+        SeleniumControl nameTextBox = new SeleniumControl(By.xpath("//*[@class= 'TextInput__FormInput']"));
+        nameTextBox.SetText(name, 5, null);
+        Info(String.format("Inputted '%s' into name text field", name));
+    }
+
     // TODO: BUG: Should search address textbox work?
 
     // TODO: Select all 3 locations. Weird bug according to SDET, should be 4 locations
-    // TODO: Input data into all 3 textfields. Do not need to click SEND
 }

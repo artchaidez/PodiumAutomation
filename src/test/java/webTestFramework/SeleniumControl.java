@@ -37,7 +37,11 @@ public class SeleniumControl extends AutoBase {
 
     public WebElement WebElement;
 
-
+    public String getText()
+    {
+        // getText()? getAttribute()?
+        return getWebElement().getText();
+    }
 
     public SeleniumControl(By chromeLocator) //taking out string Control name as param for now
     {
@@ -391,5 +395,6 @@ public class SeleniumControl extends AutoBase {
         this.chromeLocator = locator;
         ClearCache();
     }
+
 
 }
