@@ -1,6 +1,7 @@
 package autoFramework;
 
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -25,8 +26,9 @@ public class WebDriverFactory extends AutoLogger{
 
     public WebDriver CreateWebDriver()
     {
+        WebDriverManager.chromedriver().setup();
         // TODO: driver path should be in a smarter location. README.md should explain how, or be set up for Podium tester
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\artch\\Downloads\\chromedriver_win32\\chromedriver.exe");
+        //System.setProperty("webdriver.chrome.driver", "C:\\Users\\artch\\Downloads\\chromedriver_win32\\chromedriver.exe");
         return new ChromeDriver();
     }
 
