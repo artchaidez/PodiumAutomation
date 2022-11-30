@@ -37,6 +37,7 @@ public class SeleniumControl extends AutoBase {
 
     public WebElement WebElement;
 
+    /** DOES NOT WORK*/
     public String getText()
     {
         // getText()? getAttribute()?

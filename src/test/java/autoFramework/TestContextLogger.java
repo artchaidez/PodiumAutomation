@@ -7,9 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class TestContextLogger  {
-
-    // TODO move all fields to the top
-
+    
     LocalDateTime myDateObj = LocalDateTime.now();
 
     DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss:SSS");
