@@ -6,7 +6,7 @@ import webTestFramework.SeleniumControl;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
-public class AutoBase extends AutoLogger{
+public class AutoBase extends AutoLogger {
 
     // TODO Delete all unused methods and fields
     protected static WebDriver webDriver;

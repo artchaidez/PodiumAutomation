@@ -232,6 +232,11 @@ public class SeleniumControl extends AutoBase {
         return IsVisible(FindElement(timeOut));
     }
 
+    public boolean IsNotVisible(int timeOut)
+    {
+        return !IsVisible(FindElement(timeOut));
+    }
+
     protected boolean IsVisible(WebElement element)
     {
         try

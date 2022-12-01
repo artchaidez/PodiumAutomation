@@ -1,15 +1,16 @@
 package webTests;
 
-import autoFramework.AutoBase;
 import jdk.jfr.Description;
 import org.openqa.selenium.By;
+import org.testng.Assert;
 import org.testng.annotations.*;
+import pages.Pages;
 import webTestFramework.SeleniumControl;
 
 // TODO: Extend class to a class from Pages Package. This class will extend AutoBase
 // TODO: Run from command line
 // TODO: BUG: Should search address textbox work?
-public class PodiumTestCases extends AutoBase {
+public class PodiumTestCases extends Pages {
 
     @BeforeMethod
     public void TestSetUp()
@@ -24,20 +25,34 @@ public class PodiumTestCases extends AutoBase {
     }
 
     @Test (groups = {"smokeTest"})
-    @Description("Test to switch to correct iframe and click on Podium icon.")
+    @Description("Test to switch to correct iframes and click on Podium icon.")
     public void TestClickPodiumButton() throws Exception
     {
-        Step("Go to Podium Website");
-        GoToURL("https://demo.podium.tools/qa-webchat-lorw/");
+        Step("Go to Podium Demo Website");
+            GoToURL("https://demo.podium.tools/qa-webchat-lorw/");
 
-        Step("Switch to iframe Podium bubble");
-        Sleep(1);
-        switchToiFrame("podium-bubble");
+        Step("Verify on site by finding podium bubble");
+            podiumBubble.VerifyPodiumBubbleExists();
+            Info("Found Podium bubble");
+
+        Step("Switch to Podium bubble iframe");
+            Sleep(1);
+            podiumBubble.GoToPodiumBubbleFrame();
+            Info("Currently within Podium bubble iframe");
 
         Step("Click on Podium Bubble");
-        SeleniumControl podiumBtn = new SeleniumControl(By.className("ContactBubble__Bubble"));
-        podiumBtn.Click(5);
-        Info("Clicked on Podium bubble");
+            podiumBubble.ClickOnPodiumButton();
+
+        Step("Return to main frame");
+            switchToMainFrame();
+
+        Step("Switch to Podium modal iframe");
+            podiumBubble.GoToPodiumModalFrame();
+
+        Step("Verify on Podium Modal");
+            podiumBubble.VerifyOnModal();
+            Info("Podium modal is visible");
+
     }
 
     @Test (groups = {"smokeTest"})
@@ -45,59 +60,35 @@ public class PodiumTestCases extends AutoBase {
     public void TestSelectFirstLocation() throws Exception
     {
         Step("Go to Podium Website");
-        GoToURL("https://demo.podium.tools/qa-webchat-lorw/");
+            GoToURL("https://demo.podium.tools/qa-webchat-lorw/");
 
-        Step("Switch to iframe Podium modal");
-        Sleep(1);
-        switchToiFrame("podium-bubble");
-
-        Step("Click on Podium Icon");
-        SeleniumControl podiumBtn = new SeleniumControl(By.className("ContactBubble__Bubble"));
-        podiumBtn.Click(5);
-        Info("Clicked on Podium bubble");
-
-        Step("Switch to main frame");
-        switchToMainFrame();
-
-        Step("Switch to iframe Podium modal");
-        Sleep(1);
-        switchToiFrame("podium-modal");
+        Step("Go immediately to Podium modal");
+            Sleep(1);
+            podiumBubble.JumpToModal();
 
         Step("Click on first location in location list");
-        SeleniumControl locationBtn = new SeleniumControl(By.xpath("//*[@class='LocationContainer StaggerFadeIn3 LocationContainer--desktop']"));
-        locationBtn.Click(5);
-        Info("Clicked on first location");
+            podiumModal.ClickFirstLocation();
+
+        Step("Verify on message modal");
+            podiumModal.VerifyNameTextInputExists();
+            Info("Within message modal as name text input was found.");
 
     }
 
-    // TODO: Could delete this and use TestSelectFirstLocation()
-    @Test (groups = {"smokeTest"})
+    @Test (groups = {"regressionTest"})
     @Description("Test to confirm correct location is being clicked in the modal")
     public void TestScoreboardOremLocationExists() throws Exception
     {
         String location = "Scoreboard Sports - Orem";
-        String address = "765 West State Road, American Fork, UT 84003, United States";
 
         Step("Go to Podium Website");
         GoToURL("https://demo.podium.tools/qa-webchat-lorw/");
 
-        Step("Switch to iframe Podium modal");
-        Sleep(1);
-        switchToiFrame("podium-bubble");
-
-        Step("Click on Podium Icon");
-        SeleniumControl podiumBtn = new SeleniumControl(By.xpath("//*[@class='ContactBubble__Bubble']"));
-        podiumBtn.Click(5);
-        Info("Clicked on Podium bubble");
-
-        Step("Switch to main frame");
-        switchToMainFrame();
-
-        Step("Switch to iframe Podium modal");
-        switchToiFrame("podium-modal");
+        Step("Go immediately to Podium modal");
+            Sleep(1);
+            podiumBubble.JumpToModal();
 
         Step(String.format("Confirm %s is in location list", location));
-        // SeleniumControl locationBtn = new SeleniumControl(By.xpath(String.format("//*[contains(text(), \"%s\")]", location)));
         SeleniumControl locationBtn = new SeleniumControl(By.xpath(String.format("//*[text()= \"%s\"]", location)));
         locationBtn.IsVisible(5);
         Info(String.format("%s is in the modal", location));
@@ -106,19 +97,13 @@ public class PodiumTestCases extends AutoBase {
         locationBtn.Click(5);
 
         Step(String.format("Confirm %s opened up", location));
-        // TODO: confirm correct location opened up
-        // not finding text
-        // SeleniumControl modalBtn = new SeleniumControl(By.xpath(String.format("//*[contains(text(), \"%s\")]", address)));
-        SeleniumControl modalBtn = new SeleniumControl(By.xpath(String.format("//*[text() = \"%s\"]", location)));
-        //modalBtn.IsVisible(5);
-
         // This works, but need a way to prove text
         SeleniumControl modalText = new SeleniumControl(By.xpath("//*[@class='SendSmsPage__CurrentLocationName']"));
-        String tury = modalText.getWebElement().getText();
+        String locationText = modalText.getWebElement().getText();
+        Assert.assertEquals(locationText, location);
 
     }
 
-    // TODO: Complete TestInputMessageData
     @Test (groups = {"smokeTest"})
     @Description("Test to input data in all 3 fields of message modal")
     public void TestInputMessageData() throws Exception
@@ -154,21 +139,32 @@ public class PodiumTestCases extends AutoBase {
         SeleniumControl nameTextBox = new SeleniumControl(By.xpath("//*[@id= 'Name']"));
         nameTextBox.SetText(name, 5, null);
         Info(String.format("Inputted '%s' into name text field", name));
-        Sleep(2);
+        Sleep(1);
         SeleniumControl checkMark = new SeleniumControl(By.xpath("//*[@class='checkmark']"));
         checkMark.IsVisible(5);
 
         Step("Input phone number into mobile phone text field");
-        // element.sendKeys(Keys.CONTROL + "a"); cannot interact with textbox
-        // this.GetAttribute("type"); returns null, should return tel
         SeleniumControl telephoneTextBox = new SeleniumControl(By.xpath("//*[@id= 'Mobile Phone']"));
-        // TODO: Need to send numbers, not string. Need new method
         telephoneTextBox.SetText(telephone, 5, null);
+        // TODO: Verify checkmark appears
+        SeleniumControl flagIcon = new SeleniumControl(By.xpath("//*[@class='flag-picker']"));
+        Sleep(1);
+        flagIcon.IsVisible(5);
 
         Step("Input message in message text field");
         SeleniumControl messageTextBox = new SeleniumControl(By.xpath("//*[@id= 'Message']"));
         messageTextBox.SetText(message, 5, null);
         Info(String.format("Inputted '%s' into message text field", message));
+        // TODO: verify text was inputted
+        SeleniumControl messageCharCount = new SeleniumControl(By.xpath("//path[@d='M 50 0 A 50 50 0 0 1 50 0']"));
+        Sleep(1);
+        messageCharCount.IsNotVisible(5);
+
+
+        // TODO: use this to verify all text fields inputted
+        SeleniumControl sendValid = new SeleniumControl(By.xpath("//*[@class= 'SendButton SendButton--valid']"));
+        Sleep(1);
+        sendValid.IsVisible(5);
 
     }
 
@@ -177,35 +173,21 @@ public class PodiumTestCases extends AutoBase {
     public void TestClickSubjectTerms() throws Exception
     {
         Step("Go to Podium Website");
-        GoToURL("https://demo.podium.tools/qa-webchat-lorw/");
+            GoToURL("https://demo.podium.tools/qa-webchat-lorw/");
 
-        Step("Switch to iframe Podium bubble");
-        Sleep(1);
-        switchToiFrame("podium-bubble");
-
-        Step("Click on Podium Bubble");
-        SeleniumControl podiumBtn = new SeleniumControl(By.className("ContactBubble__Bubble"));
-        podiumBtn.Click(5);
-        Info("Clicked on Podium bubble");
-
-        Step("Switch to main frame");
-        switchToMainFrame();
-
-        Step("Switch to iframe Podium modal");
-        switchToiFrame("podium-modal");
+        Step("Go immediately to Podium modal");
+            Sleep(1);
+            podiumBubble.JumpToModal();
 
         Step("Click on 'use is subject to terms'");
-        // both classes work: 'terms' and 'LocationSelector__PodiumPower'
-        SeleniumControl subjectTermsBtn = new SeleniumControl(By.className("LocationSelector__PodiumPower"));
-        subjectTermsBtn.Click(5);
+            podiumModal.ClickOnTermsButton();
 
-        switchToNewlyOpenTab();
+        Step("Switch to Terms and Service page");
+            switchToNewlyOpenTab();
 
-        Step("Click on Terms of Service");
-        SeleniumControl termsBtn = new SeleniumControl(By.xpath("//*[text()='Terms of Service']"));
-        termsBtn.Click(5);
-        Info("Clicked on 'Terms of Service'");
-
+        Step("Verify on Terms and Service page by clicking on 'Terms of Service'");
+            podiumModal.VerifyOnSubjectTermsPage();
+            Info("Clicked on 'Terms of Service'");
     }
 
     @Test (groups = {"regressionTest"})
@@ -215,36 +197,24 @@ public class PodiumTestCases extends AutoBase {
         String message = "There is a bug with the return arrow on the message widget!";
 
         Step("Go to Podium Website");
-        GoToURL("https://demo.podium.tools/qa-webchat-lorw/");
+            GoToURL("https://demo.podium.tools/qa-webchat-lorw/");
 
-        Step("Switch to iframe Podium modal");
-        Sleep(1);
-        switchToiFrame("podium-bubble");
-
-        Step("Click on Podium Icon");
-        SeleniumControl podiumBtn = new SeleniumControl(By.className("ContactBubble__Bubble"));
-        podiumBtn.Click(5);
-        Info("Clicked on Podium bubble");
-
-        Step("Switch to main frame");
-        switchToMainFrame();
-
-        Step("Switch to iframe Podium modal");
-        switchToiFrame("podium-modal");
+        Step("Go immediately to Podium modal");
+            Sleep(1);
+            podiumBubble.JumpToModal();
 
         Step("Click on first location in location list");
-        SeleniumControl locationBtn = new SeleniumControl(By.xpath("//*[@class='LocationContainer StaggerFadeIn3 LocationContainer--desktop']"));
-        locationBtn.Click(5);
-        Info("Clicked on first location");
+            podiumModal.ClickFirstLocation();
+
+        Step("Verify on message modal");
+            podiumModal.VerifyNameTextInputExists();
+            Info("Within message modal as name text input was found.");
 
         Step("Click on return arrow");
-        SeleniumControl returnArrowBtn = new SeleniumControl((By.xpath("//*[@class='SendSmsPage__ArrowIcon']")));
-        returnArrowBtn.Click(5);
-        Info("Successfully clicked on return arrow");
+            podiumModal.ClickOnReturnArrowBtn();
 
         Step("Confirm message modal is still open by inputting text into message text field");
-        SeleniumControl nameTextBox = new SeleniumControl(By.xpath("//*[@class= 'TextInput__Textarea ']"));
-        nameTextBox.SetText(message, 5, null);
-        Info(String.format("Inputted '%s' into message text field", message));
+            podiumModal.SetTextInNameInput(message, 5, null);
+            Info(String.format("Inputted '%s' into message text field", message));
     }
 }

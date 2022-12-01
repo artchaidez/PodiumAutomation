@@ -11,15 +11,18 @@ Gradle DSL: Groovy
 
 Notes: TestReturnButtonDoesNotWork() is to prove a bug exists with the return arrow.
 On the message widget, clicking on the arrow does not return to the location list
-widget. \
+widget.
+
 While not a bug, the classNames for the text fields in the message widget are
 inconsistent. The naming convention should be consistent to prevent bugs and issues
 for devs and QAs from occurring. Name has two different 'Input',
 mobile phone contains an extra 'TextInput' and '--tel', and
-message has an extra space at the end. \
+message has an extra space at the end.
+
 Name: 'TextInput__FormInput' \
 Mobile Phone: 'TextInput TextInput--tel' \
-Message: 'TextInput__Textarea ' \
+Message: 'TextInput__Textarea ' 
+
 Recommended naming:
 Name: 'Name__FormInput' \
 Mobile Phone: 'MobileInput__Tel' \
