@@ -2,14 +2,11 @@ package webTests;
 
 import jdk.jfr.Description;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import pages.Pages;
 import webTestFramework.SeleniumControl;
 
-// TODO: Run from command line
-// TODO: BUG: Should search address textbox work?
 public class PodiumTestCases extends Pages {
 
     @BeforeMethod
@@ -43,9 +40,6 @@ public class PodiumTestCases extends Pages {
         Step("Click on Podium Bubble");
             podiumBubble.ClickOnPodiumButton();
 
-        Step("Return to main frame");
-            switchToMainFrame();
-
         Step("Switch to Podium modal iframe");
             podiumBubble.GoToPodiumModalFrame();
 
@@ -64,7 +58,7 @@ public class PodiumTestCases extends Pages {
 
         Step("Go immediately to Podium modal");
             Sleep(1);
-            podiumBubble.JumpToModal();
+            podiumBubble.JumpToPodiumModal();
 
         Step("Click on first location in location list");
             podiumModal.SelectFirstLocation();
@@ -86,7 +80,7 @@ public class PodiumTestCases extends Pages {
 
         Step("Go immediately to Podium modal");
             Sleep(1);
-            podiumBubble.JumpToModal();
+            podiumBubble.JumpToPodiumModal();
 
         Step(String.format("Confirm %s is in location list", location));
             SeleniumControl locationBtn = new SeleniumControl(By.xpath(String.format("//*[text()= \"%s\"]", location)));
@@ -97,8 +91,8 @@ public class PodiumTestCases extends Pages {
             locationBtn.Click(5);
 
         Step(String.format("Confirm %s opened up", location));
+            // TODO: make this a method that returns bool. Do not use assert
             Assert.assertEquals(podiumModal.GetLocationInMessageModal(), location);
-
     }
 
     @Test (groups = {"smokeTest"})
@@ -114,7 +108,7 @@ public class PodiumTestCases extends Pages {
 
         Step("Go immediately to Podium modal");
             Sleep(1);
-            podiumBubble.JumpToModal();
+            podiumBubble.JumpToPodiumModal();
 
         Step("Click on first location in location list");
             podiumModal.SelectFirstLocation();
@@ -124,27 +118,25 @@ public class PodiumTestCases extends Pages {
             Sleep(1);
 
         Step("Verify text was put into name input");
-            podiumModal.VerifyCheckMarkExists();
+            podiumModal.VerifyNameCheckmarkExists();
 
         Step("Input phone number into mobile phone text input");
             podiumModal.SetMobileNumberInput(telephone, 5, null);
             Sleep(1);
 
         Step("Verify phone number was put into input");
-        // TODO: Verify checkmark appears. Only checking for flag rn
-            podiumModal.VerifyPhoneNumberFlagExists();
+            podiumModal.VerifyMobileNumberCheckmarkExists();
 
         Step("Input message in message text field");
-        SeleniumControl confirm = new SeleniumControl(By.xpath("//*[local-name()='svg']//*[local-name()='g']//*[@d='M 50 0 A 50 50 0 0 1 50 0']"));
-        Sleep(1);
-        podiumModal.SetMessageInput(message, 5, null);
-        // TODO: verify text was inputted
+        // //*[local-name()='svg']//*[local-name()='g']//*[@d='M 50 0 A 50 50 0 0 1 50 0']
+        // //*[contains(@d, 'M 50 0 A 50 50 0 0 1 50 0' )]
+        SeleniumControl confirm = new SeleniumControl(By.xpath("//*[contains(@d, 'M 50 0 A 50 50 0 0 1 50 0' )]"));
+        //podiumModal.SetMessageInput(message, 5, null);
         // TODO: Idea, check is long xpath exists. It does change and this proves icon changed.
         //  Create a method that it is not longer visible
-        // //*[local-name()='svg']//*[local-name()='g']//*[@d='M 50 0 A 50 50 0 0 1 50 0']
 
-        Sleep(1);
-        confirm.IsNotVisible(5);
+        //confirm.IsVisible(5);
+        String tury = confirm.getAttribute("d");
 
         Step("Verify all inputs have data");
             podiumModal.VerifyAllInputsComplete();
@@ -161,7 +153,7 @@ public class PodiumTestCases extends Pages {
 
         Step("Go immediately to Podium modal");
             Sleep(1);
-            podiumBubble.JumpToModal();
+            podiumBubble.JumpToPodiumModal();
 
         Step("Click on 'use is subject to terms'");
             podiumModal.ClickOnTermsButton();
@@ -185,7 +177,7 @@ public class PodiumTestCases extends Pages {
 
         Step("Go immediately to Podium modal");
             Sleep(1);
-            podiumBubble.JumpToModal();
+            podiumBubble.JumpToPodiumModal();
 
         Step("Click on first location in location list");
             podiumModal.SelectFirstLocation();
@@ -198,7 +190,7 @@ public class PodiumTestCases extends Pages {
             podiumModal.ClickOnReturnArrowBtn();
 
         Step("Confirm message modal is still open by inputting text into message input");
-            podiumModal.SetTextInNameInput(message, 5, null);
+            podiumModal.SetMessageInput(message, 5, null);
             Info(String.format("Inputted '%s' into message text field", message));
 
         Step("Verify text was inputted into message input");

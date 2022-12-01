@@ -8,7 +8,6 @@ import java.util.*;
 
 public class AutoLogger {
 
-    // TODO Delete all unused methods and fields
     private TestContextLogger testContextLogger = new TestContextLogger();
 
     private int stepNumber = 1;
@@ -67,9 +66,9 @@ public class AutoLogger {
             includedGot = true;
 
         String got = includedGot ? "Got: " : "";
-        String defualtMessage = "   (PASS)  " + got + actualValue;
+        String defaultMessage = "   (PASS)  " + got + actualValue;
 
-        testContextLogger.Pass(defualtMessage);
+        testContextLogger.Pass(defaultMessage);
     }
 
     public void FailCompare(String message, Exception ex)
@@ -119,38 +118,5 @@ public class AutoLogger {
         testContextLogger.Step(message,stepNumber);
 
         stepNumber++;
-    }
-
-    public void IgnoreTest(String message)
-    {
-        Warning(message);
-        //ToDo figure out how to ignore test
-    }
-
-    public void StartTest(String testName)
-    {
-        //ToDo Test execution context class, to get all test data
-        TestInfo context = null;
-
-        /*
-         * var description = something
-         *
-         * List<String> messages = new ArrayList<String>(){
-         * "==========================================================================",
-         * "     Starting test  :  " + context.CurrentTest.Name,
-         * "     Description    :  " + description,
-         * "=========================================================================="
-         * }
-         *
-         *
-         * for(String message : messages)
-         * {
-         * info(message);
-         * }
-         *
-         * setTestStatusToPass()
-         * stepNumber = 1;
-         * this.testName = context.Current.MethodName;
-         * */
     }
 }

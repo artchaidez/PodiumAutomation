@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 public class AutoBase extends AutoLogger {
 
-    // TODO Delete all unused methods and fields
     protected static WebDriver webDriver;
     public SeleniumControl seleniumControl;
 
@@ -65,10 +64,4 @@ public class AutoBase extends AutoLogger {
         this.webDriver = webDriver.switchTo().window(allTabs.get(lastTabIndex));
         Step(String.format("Switched to newest tab: %s", this.webDriver.getTitle()));
     }
-
-    public void checkCurrentWindow()
-    {
-        Info(String.format("Title of tab is %s", this.webDriver.getTitle()));
-    }
-
 }

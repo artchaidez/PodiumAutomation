@@ -15,10 +15,8 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO Learn Cypress vs Selenium
 public class SeleniumControl extends AutoBase {
 
-    // TODO delete all unused methods and fields
     protected By chromeLocator;
 
     protected WebElement cacheElement;
@@ -37,17 +35,21 @@ public class SeleniumControl extends AutoBase {
 
     public WebElement WebElement;
 
-    /** DOES NOT WORK*/
     public String getText()
     {
         return getWebElement().getText();
     }
 
-    public SeleniumControl(By chromeLocator) //taking out string Control name as param for now
+    //TODO: Delete
+    public String getAttribute(String name)
+    {
+        return getWebElement().getCssValue(name);
+    }
+
+    public SeleniumControl(By chromeLocator)
     {
         this.chromeLocator = chromeLocator;
         setLocator(chromeLocator);
-        // this.controlName = controlName;
     }
 
     public SeleniumControl(WebElement element, String controlName)
@@ -153,8 +155,6 @@ public class SeleniumControl extends AutoBase {
             } catch (InterruptedException ex)
             {
                 innerException = ex;
-
-                //Todo create try catch block that calls method scrollToView, make that method too
             }
 
             Thread.sleep(1000L);
@@ -351,8 +351,6 @@ public class SeleniumControl extends AutoBase {
         return controls;
     }
 
-    // ToDo create a findAll elements that returns generic type
-
     public List<WebElement> FindAllVisible(int Max_Retries) throws InterruptedException
     {
         if (Max_Retries == 0)
@@ -368,8 +366,6 @@ public class SeleniumControl extends AutoBase {
         }
         return visibleElements;
     }
-
-    // ToDo create findallCHILDcontrols methods
 
     public void ClearCache()
     {
@@ -400,6 +396,4 @@ public class SeleniumControl extends AutoBase {
         this.chromeLocator = locator;
         ClearCache();
     }
-
-
 }

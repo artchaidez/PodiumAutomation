@@ -6,23 +6,23 @@ import webTestFramework.SeleniumControl;
 
 public class PodiumModal extends AutoBase {
 
-    SeleniumControl firstLocation = new SeleniumControl(By.xpath("//*[@class='LocationContainer StaggerFadeIn3 LocationContainer--desktop']"));
+    SeleniumControl firstLocation = new SeleniumControl(By.id("widget-location-item-63146"));
 
     SeleniumControl nameTextInput = new SeleniumControl(By.xpath("//*[@id= 'Name']"));
 
-    SeleniumControl checkMark = new SeleniumControl(By.xpath("//*[@class='checkmark']"));
+    SeleniumControl nameCheckMark = new SeleniumControl(By.xpath("//*[@class='TextInput']//*[@class='checkmark']"));
 
-    SeleniumControl telephoneTextInput = new SeleniumControl(By.xpath("//*[@id= 'Mobile Phone']"));
+    SeleniumControl mobileNumberTextInput = new SeleniumControl(By.xpath("//*[@id= 'Mobile Phone']"));
 
-    SeleniumControl flagIcon = new SeleniumControl(By.xpath("//*[@class='flag-picker']"));
+    SeleniumControl mobileNumberCheckmark = new SeleniumControl(By.xpath("//*[@class='TextInput TextInput--tel']//*[@class='checkmark']"));
 
     SeleniumControl messageTextInput = new SeleniumControl(By.xpath("//*[@id= 'Message']"));
 
     SeleniumControl sendButtonValid = new SeleniumControl(By.xpath("//*[@class= 'SendButton SendButton--valid']"));
 
-    SeleniumControl subjectTermsBtn = new SeleniumControl(By.className("terms"));
+    SeleniumControl subjectTermsLink = new SeleniumControl(By.className("terms"));
 
-    SeleniumControl termsBtn = new SeleniumControl(By.xpath("//*[text()='Terms of Service']"));
+    SeleniumControl termsLink = new SeleniumControl(By.xpath("//*[text()='Terms of Service']"));
 
     SeleniumControl returnArrowBtn = new SeleniumControl((By.xpath("//*[@class='SendSmsPage__ArrowIcon']")));
 
@@ -32,12 +32,6 @@ public class PodiumModal extends AutoBase {
 
     public void SelectFirstLocation() throws Exception {
         firstLocation.Click(5);
-    }
-
-    // TODO: Delete?
-    public void FirstLocationIsVisible()
-    {
-        firstLocation.IsVisible(5);
     }
 
     public void VerifyNameTextInputExists()
@@ -50,19 +44,19 @@ public class PodiumModal extends AutoBase {
         nameTextInput.SetText(data, Max_Retries, escape);
     }
 
-    public void VerifyCheckMarkExists()
+    public void VerifyNameCheckmarkExists()
     {
-        checkMark.IsVisible(5);
+        nameCheckMark.IsVisible(5);
     }
 
     public void SetMobileNumberInput(String data, int Max_Retries, Boolean escape) throws Exception
     {
-        telephoneTextInput.SetText(data, Max_Retries, escape);
+        mobileNumberTextInput.SetText(data, Max_Retries, escape);
     }
 
-    public void VerifyPhoneNumberFlagExists()
+    public void VerifyMobileNumberCheckmarkExists()
     {
-        flagIcon.IsVisible(5);
+        mobileNumberCheckmark.IsVisible(5);
     }
 
     public void SetMessageInput(String data, int Max_Retries, Boolean escape) throws Exception
@@ -77,12 +71,12 @@ public class PodiumModal extends AutoBase {
 
     public void ClickOnTermsButton() throws Exception
     {
-        subjectTermsBtn.Click(5);
+        subjectTermsLink.Click(5);
     }
 
     public void VerifyOnSubjectTermsPage()
     {
-        termsBtn.IsVisible(5);
+        termsLink.IsVisible(5);
     }
 
     /** Click on arrow on message modal to return to location list modal */
@@ -93,18 +87,13 @@ public class PodiumModal extends AutoBase {
 
     public String GetLocationInMessageModal()
     {
-        return locationText.getWebElement().getText();
+        return locationText.getText();
     }
 
     public String GetAddressInMessageModal()
     {
-        return addressText.getWebElement().getText();
+        return addressText.getText();
     }
 
-    // TODO: Delete
-    public SeleniumControl CreateLocationSeleniumControl(String location)
-    {
-        return new SeleniumControl(By.xpath(String.format("//*[text()= \"%s\"]", location)));
-    }
 
 }

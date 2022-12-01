@@ -10,44 +10,47 @@ public class PodiumBubble extends AutoBase {
 
     SeleniumControl podiumBtn = new SeleniumControl(By.className("ContactBubble__Bubble"));
 
-    SeleniumControl modal = new SeleniumControl(By.xpath("//*[contains( @class , 'SearchInput')]"));
+    SeleniumControl modal = new SeleniumControl(By.xpath("//*[contains(@class, 'SearchInput')]"));
 
-    /** Switch to podium bubble iframe.*/
+    /** Switch to podium-bubble iframe.*/
     public void GoToPodiumBubbleFrame() {
+        switchToMainFrame();
         switchToiFrame("podium-bubble");
     }
 
-    /** Verify in main iframe by looking Podium bubble exists. Podium button should not visible.*/
+    /** Verify in main iframe by checking if podium-bubble exists. Podium button should not visible.*/
     public void VerifyPodiumBubbleExists()
     {
         podiumBubble.IsVisible(5);
     }
 
+    /** Must be within podium-bubble*/
     public void ClickOnPodiumButton() throws Exception
     {
         podiumBtn.Click(5);
     }
 
-    /** Verify within podium-bubble iframe and Podium button exists*/
+    /** Verify within podium-bubble iframe and Podium button exists.*/
     public void VerifyPodiumBtnExists() throws Exception
     {
         podiumBtn.IsVisible(5);
     }
 
+    /** Switch to podium-modal iframe.*/
     public void GoToPodiumModalFrame()
     {
+        switchToMainFrame();
         switchToiFrame("podium-modal");
     }
 
-    /** Verify Podium button has been clicked and within modal appear.
-     * Looks for searchbar. */
+    /** Looks for searchbar to verify within iframe podium-modal.  */
     public void VerifyOnModal()
     {
         modal.IsVisible(5);
     }
 
-    // TODO: main frame -> bubble iFrame -> main iFrame -> modal iFrame
-    public void JumpToModal() throws Exception
+    /** Jumps to podium-modal iframe regardless of where currently at.*/
+    public void JumpToPodiumModal() throws Exception
     {
         switchToMainFrame();
         switchToiFrame("podium-bubble");
