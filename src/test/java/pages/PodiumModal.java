@@ -26,8 +26,11 @@ public class PodiumModal extends AutoBase {
 
     SeleniumControl returnArrowBtn = new SeleniumControl((By.xpath("//*[@class='SendSmsPage__ArrowIcon']")));
 
+    SeleniumControl locationText = new SeleniumControl(By.xpath("//*[@class='SendSmsPage__CurrentLocationName']"));
 
-    public void ClickFirstLocation() throws Exception {
+    SeleniumControl addressText = new SeleniumControl(By.xpath("//*[@class='SendSmsPage__CurrentLocationAddress']"));
+
+    public void SelectFirstLocation() throws Exception {
         firstLocation.Click(5);
     }
 
@@ -44,21 +47,30 @@ public class PodiumModal extends AutoBase {
 
     public void SetTextInNameInput(String data, int Max_Retries, Boolean escape) throws Exception
     {
-        nameTextInput.SetText(data, 5, null);
+        nameTextInput.SetText(data, Max_Retries, escape);
     }
-
 
     public void VerifyCheckMarkExists()
     {
         checkMark.IsVisible(5);
     }
 
-    public void VerifyFlagExists()
+    public void SetMobileNumberInput(String data, int Max_Retries, Boolean escape) throws Exception
+    {
+        telephoneTextInput.SetText(data, Max_Retries, escape);
+    }
+
+    public void VerifyPhoneNumberFlagExists()
     {
         flagIcon.IsVisible(5);
     }
 
-    public void VerifyAllTextFieldsComplete()
+    public void SetMessageInput(String data, int Max_Retries, Boolean escape) throws Exception
+    {
+        messageTextInput.SetText(data, Max_Retries, escape);
+    }
+
+    public void VerifyAllInputsComplete()
     {
         sendButtonValid.IsVisible(5);
     }
@@ -77,7 +89,22 @@ public class PodiumModal extends AutoBase {
     public void ClickOnReturnArrowBtn() throws Exception
     {
         returnArrowBtn.Click(5);
+    }
 
+    public String GetLocationInMessageModal()
+    {
+        return locationText.getWebElement().getText();
+    }
+
+    public String GetAddressInMessageModal()
+    {
+        return addressText.getWebElement().getText();
+    }
+
+    // TODO: Delete
+    public SeleniumControl CreateLocationSeleniumControl(String location)
+    {
+        return new SeleniumControl(By.xpath(String.format("//*[text()= \"%s\"]", location)));
     }
 
 }

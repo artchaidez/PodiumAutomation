@@ -2,12 +2,12 @@ package webTests;
 
 import jdk.jfr.Description;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import pages.Pages;
 import webTestFramework.SeleniumControl;
 
-// TODO: Extend class to a class from Pages Package. This class will extend AutoBase
 // TODO: Run from command line
 // TODO: BUG: Should search address textbox work?
 public class PodiumTestCases extends Pages {
@@ -67,7 +67,7 @@ public class PodiumTestCases extends Pages {
             podiumBubble.JumpToModal();
 
         Step("Click on first location in location list");
-            podiumModal.ClickFirstLocation();
+            podiumModal.SelectFirstLocation();
 
         Step("Verify on message modal");
             podiumModal.VerifyNameTextInputExists();
@@ -82,25 +82,22 @@ public class PodiumTestCases extends Pages {
         String location = "Scoreboard Sports - Orem";
 
         Step("Go to Podium Website");
-        GoToURL("https://demo.podium.tools/qa-webchat-lorw/");
+            GoToURL("https://demo.podium.tools/qa-webchat-lorw/");
 
         Step("Go immediately to Podium modal");
             Sleep(1);
             podiumBubble.JumpToModal();
 
         Step(String.format("Confirm %s is in location list", location));
-        SeleniumControl locationBtn = new SeleniumControl(By.xpath(String.format("//*[text()= \"%s\"]", location)));
-        locationBtn.IsVisible(5);
-        Info(String.format("%s is in the modal", location));
+            SeleniumControl locationBtn = new SeleniumControl(By.xpath(String.format("//*[text()= \"%s\"]", location)));
+            locationBtn.IsVisible(5);
+            Info(String.format("%s is in the modal", location));
 
         Step(String.format("Click on %s", location));
-        locationBtn.Click(5);
+            locationBtn.Click(5);
 
         Step(String.format("Confirm %s opened up", location));
-        // This works, but need a way to prove text
-        SeleniumControl modalText = new SeleniumControl(By.xpath("//*[@class='SendSmsPage__CurrentLocationName']"));
-        String locationText = modalText.getWebElement().getText();
-        Assert.assertEquals(locationText, location);
+            Assert.assertEquals(podiumModal.GetLocationInMessageModal(), location);
 
     }
 
@@ -113,58 +110,45 @@ public class PodiumTestCases extends Pages {
         String message = "Hello QA Tester";
 
         Step("Go to Podium Website");
-        GoToURL("https://demo.podium.tools/qa-webchat-lorw/");
+            GoToURL("https://demo.podium.tools/qa-webchat-lorw/");
 
-        Step("Switch to iframe Podium modal");
-        Sleep(1);
-        switchToiFrame("podium-bubble");
-
-        Step("Click on Podium Icon");
-        SeleniumControl podiumBtn = new SeleniumControl(By.className("ContactBubble__Bubble"));
-        podiumBtn.Click(5);
-        Info("Clicked on Podium bubble");
-
-        Step("Switch to main frame");
-        switchToMainFrame();
-
-        Step("Switch to iframe Podium modal");
-        switchToiFrame("podium-modal");
+        Step("Go immediately to Podium modal");
+            Sleep(1);
+            podiumBubble.JumpToModal();
 
         Step("Click on first location in location list");
-        SeleniumControl locationBtn = new SeleniumControl(By.xpath("//*[@class='LocationContainer StaggerFadeIn3 LocationContainer--desktop']"));
-        locationBtn.Click(5);
-        Info("Clicked on first location");
+            podiumModal.SelectFirstLocation();
 
         Step("Input name in Name text field");
-        SeleniumControl nameTextBox = new SeleniumControl(By.xpath("//*[@id= 'Name']"));
-        nameTextBox.SetText(name, 5, null);
-        Info(String.format("Inputted '%s' into name text field", name));
-        Sleep(1);
-        SeleniumControl checkMark = new SeleniumControl(By.xpath("//*[@class='checkmark']"));
-        checkMark.IsVisible(5);
+            podiumModal.SetTextInNameInput(name, 5, null);
+            Sleep(1);
 
-        Step("Input phone number into mobile phone text field");
-        SeleniumControl telephoneTextBox = new SeleniumControl(By.xpath("//*[@id= 'Mobile Phone']"));
-        telephoneTextBox.SetText(telephone, 5, null);
-        // TODO: Verify checkmark appears
-        SeleniumControl flagIcon = new SeleniumControl(By.xpath("//*[@class='flag-picker']"));
-        Sleep(1);
-        flagIcon.IsVisible(5);
+        Step("Verify text was put into name input");
+            podiumModal.VerifyCheckMarkExists();
+
+        Step("Input phone number into mobile phone text input");
+            podiumModal.SetMobileNumberInput(telephone, 5, null);
+            Sleep(1);
+
+        Step("Verify phone number was put into input");
+        // TODO: Verify checkmark appears. Only checking for flag rn
+            podiumModal.VerifyPhoneNumberFlagExists();
 
         Step("Input message in message text field");
-        SeleniumControl messageTextBox = new SeleniumControl(By.xpath("//*[@id= 'Message']"));
-        messageTextBox.SetText(message, 5, null);
-        Info(String.format("Inputted '%s' into message text field", message));
+        SeleniumControl confirm = new SeleniumControl(By.xpath("//*[local-name()='svg']//*[local-name()='g']//*[@d='M 50 0 A 50 50 0 0 1 50 0']"));
+        Sleep(1);
+        podiumModal.SetMessageInput(message, 5, null);
         // TODO: verify text was inputted
-        SeleniumControl messageCharCount = new SeleniumControl(By.xpath("//path[@d='M 50 0 A 50 50 0 0 1 50 0']"));
-        Sleep(1);
-        messageCharCount.IsNotVisible(5);
+        // TODO: Idea, check is long xpath exists. It does change and this proves icon changed.
+        //  Create a method that it is not longer visible
+        // //*[local-name()='svg']//*[local-name()='g']//*[@d='M 50 0 A 50 50 0 0 1 50 0']
 
-
-        // TODO: use this to verify all text fields inputted
-        SeleniumControl sendValid = new SeleniumControl(By.xpath("//*[@class= 'SendButton SendButton--valid']"));
         Sleep(1);
-        sendValid.IsVisible(5);
+        confirm.IsNotVisible(5);
+
+        Step("Verify all inputs have data");
+            podiumModal.VerifyAllInputsComplete();
+            Info("All inputs filled out and send button is valid");
 
     }
 
@@ -204,7 +188,7 @@ public class PodiumTestCases extends Pages {
             podiumBubble.JumpToModal();
 
         Step("Click on first location in location list");
-            podiumModal.ClickFirstLocation();
+            podiumModal.SelectFirstLocation();
 
         Step("Verify on message modal");
             podiumModal.VerifyNameTextInputExists();
@@ -213,8 +197,12 @@ public class PodiumTestCases extends Pages {
         Step("Click on return arrow");
             podiumModal.ClickOnReturnArrowBtn();
 
-        Step("Confirm message modal is still open by inputting text into message text field");
+        Step("Confirm message modal is still open by inputting text into message input");
             podiumModal.SetTextInNameInput(message, 5, null);
             Info(String.format("Inputted '%s' into message text field", message));
+
+        Step("Verify text was inputted into message input");
+        // TODO: Verify text was put in
+
     }
 }
