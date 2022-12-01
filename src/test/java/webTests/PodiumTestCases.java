@@ -3,8 +3,7 @@ package webTests;
 import autoFramework.AutoBase;
 import jdk.jfr.Description;
 import org.openqa.selenium.By;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import webTestFramework.SeleniumControl;
 
 // TODO: Extend class to a class from Pages Package. This class will extend AutoBase
@@ -12,14 +11,17 @@ import webTestFramework.SeleniumControl;
 // TODO: BUG: Should search address textbox work?
 public class PodiumTestCases extends AutoBase {
 
-    @BeforeTest
+    @BeforeMethod
     public void TestSetUp()
     {
         InitWebDriver();
     }
 
-    // TODO: Need test TestTearDown. Two tests fail when running Class
-    // TTestReturnButtonDoesNotWork() and TestClickSubjectTerms() fail
+    @AfterMethod
+    public void TestTearDown()
+    {
+        Quit();
+    }
 
     @Test (groups = {"smokeTest"})
     @Description("Test to switch to correct iframe and click on Podium icon.")
@@ -112,7 +114,7 @@ public class PodiumTestCases extends AutoBase {
 
         // This works, but need a way to prove text
         SeleniumControl modalText = new SeleniumControl(By.xpath("//*[@class='SendSmsPage__CurrentLocationName']"));
-        modalText.IsVisible(5);
+        String tury = modalText.getWebElement().getText();
 
     }
 
@@ -122,7 +124,6 @@ public class PodiumTestCases extends AutoBase {
     public void TestInputMessageData() throws Exception
     {
         String name = "Art";
-        Long telephoneNum = 7777777777L;
         String telephone = "7777777777";
         String message = "Hello QA Tester";
 
@@ -149,23 +150,23 @@ public class PodiumTestCases extends AutoBase {
         locationBtn.Click(5);
         Info("Clicked on first location");
 
-        // TODO: xpath class names for all three textfields all differ. Should be consistent. Report this as a bug
-        // NOTE: still within iframe podium-modal
-        // NOTE: after opening message, Name already clicked
         Step("Input name in Name text field");
-        SeleniumControl nameTextBox = new SeleniumControl(By.xpath("//*[@class= 'TextInput__FormInput']"));
+        SeleniumControl nameTextBox = new SeleniumControl(By.xpath("//*[@id= 'Name']"));
         nameTextBox.SetText(name, 5, null);
         Info(String.format("Inputted '%s' into name text field", name));
+        Sleep(2);
+        SeleniumControl checkMark = new SeleniumControl(By.xpath("//*[@class='checkmark']"));
+        checkMark.IsVisible(5);
 
         Step("Input phone number into mobile phone text field");
         // element.sendKeys(Keys.CONTROL + "a"); cannot interact with textbox
         // this.GetAttribute("type"); returns null, should return tel
-        SeleniumControl telephoneTextBox = new SeleniumControl(By.xpath("//*[@class= 'TextInput TextInput--tel']"));
+        SeleniumControl telephoneTextBox = new SeleniumControl(By.xpath("//*[@id= 'Mobile Phone']"));
         // TODO: Need to send numbers, not string. Need new method
-        //telephoneTextBox.SetText(telephone, 5, null);
+        telephoneTextBox.SetText(telephone, 5, null);
 
         Step("Input message in message text field");
-        SeleniumControl messageTextBox = new SeleniumControl(By.xpath("//*[@class= 'TextInput__Textarea ']"));
+        SeleniumControl messageTextBox = new SeleniumControl(By.xpath("//*[@id= 'Message']"));
         messageTextBox.SetText(message, 5, null);
         Info(String.format("Inputted '%s' into message text field", message));
 
@@ -179,6 +180,7 @@ public class PodiumTestCases extends AutoBase {
         GoToURL("https://demo.podium.tools/qa-webchat-lorw/");
 
         Step("Switch to iframe Podium bubble");
+        Sleep(1);
         switchToiFrame("podium-bubble");
 
         Step("Click on Podium Bubble");
