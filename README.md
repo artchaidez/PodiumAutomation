@@ -6,7 +6,7 @@ For reference, what was used when creating this project: \
 Language: Java \
 Build System: Gradle \
 JDK: Amazon Corretto 17.0.5 (Windows) \
-     Eclipse Temurin 17.0.4
+     Eclipse Temurin 17.0.4 (Mac) \
 Gradle DSL: Groovy
 
 Notes: TestReturnButtonDoesNotWork() is to prove a bug exists with the return arrow.
