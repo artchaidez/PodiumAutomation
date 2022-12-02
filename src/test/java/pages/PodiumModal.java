@@ -2,11 +2,12 @@ package pages;
 
 import autoFramework.AutoBase;
 import org.openqa.selenium.By;
+import org.testng.Assert;
 import webTestFramework.SeleniumControl;
 
 public class PodiumModal extends AutoBase {
 
-    SeleniumControl firstLocation = new SeleniumControl(By.id("widget-location-item-63146"));
+    SeleniumControl firstLocation = new SeleniumControl(By.xpath("//*[@class = 'LocationContainer StaggerFadeIn3 LocationContainer--desktop']"));
 
     SeleniumControl nameTextInput = new SeleniumControl(By.xpath("//*[@id= 'Name']"));
 
@@ -30,8 +31,23 @@ public class PodiumModal extends AutoBase {
 
     SeleniumControl addressText = new SeleniumControl(By.xpath("//*[@class='SendSmsPage__CurrentLocationAddress']"));
 
-    public void SelectFirstLocation() throws Exception {
+    SeleniumControl locationSearchBar = new SeleniumControl(By.xpath("//*[@name='Search Locations']"));
+
+    SeleniumControl messageCharCount = new SeleniumControl(By.xpath("//*[contains(@stroke, '#3074dc')]"));
+
+    public void SelectFirstLocation() throws Exception
+    {
         firstLocation.Click(5);
+    }
+
+    public String GetFirstLocationText() throws Exception
+    {
+        return firstLocation.getText();
+    }
+
+    public void VerifySearchBarInputCorrect(String data) throws Exception
+    {
+        Assert.assertTrue(GetFirstLocationText().contains(data));
     }
 
     public void VerifyNameTextInputExists()
@@ -62,6 +78,13 @@ public class PodiumModal extends AutoBase {
     public void SetMessageInput(String data, int Max_Retries, Boolean escape) throws Exception
     {
         messageTextInput.SetText(data, Max_Retries, escape);
+    }
+
+    public void VerifyMessageHasInput()
+    {
+        String emptyMessageLocator = "M 50 0 A 50 50 0 0 1 50 0";
+        String messageAttribute = messageCharCount.getAttribute("d");
+        Assert.assertFalse(emptyMessageLocator.equals(messageAttribute));
     }
 
     public void VerifyAllInputsComplete()
@@ -95,5 +118,25 @@ public class PodiumModal extends AutoBase {
         return addressText.getText();
     }
 
+    public void VerifyLocationSearchBar()
+    {
+        locationSearchBar.IsVisible(5);
+    }
+
+    // TODO: get to work?
+    public String GetLocationSearchBarText()
+    {
+        return locationSearchBar.getText();
+    }
+
+    public void SetLocationSearchBarText(String zipAddress) throws Exception
+    {
+        locationSearchBar.SetText(zipAddress, 5, null);
+    }
+
+    public void VerifyCorrectLocationOpened(String data) throws Exception
+    {
+        Assert.assertEquals(GetLocationInMessageModal(), data);
+    }
 
 }

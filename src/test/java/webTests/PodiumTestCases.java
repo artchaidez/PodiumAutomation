@@ -46,10 +46,9 @@ public class PodiumTestCases extends Pages {
         Step("Verify on Podium Modal");
             podiumBubble.VerifyOnModal();
             Info("Podium modal is visible");
-
     }
 
-    @Test (groups = {"smokeTest"})
+    @Test (groups = {"regressionTest"})
     @Description("Test to click on first location found in Location modal.")
     public void TestSelectFirstLocation() throws Exception
     {
@@ -66,7 +65,6 @@ public class PodiumTestCases extends Pages {
         Step("Verify on message modal");
             podiumModal.VerifyNameTextInputExists();
             Info("Within message modal as name text input was found.");
-
     }
 
     @Test (groups = {"regressionTest"})
@@ -91,8 +89,8 @@ public class PodiumTestCases extends Pages {
             locationBtn.Click(5);
 
         Step(String.format("Confirm %s opened up", location));
-            // TODO: make this a method that returns bool. Do not use assert
-            Assert.assertEquals(podiumModal.GetLocationInMessageModal(), location);
+            podiumModal.VerifyCorrectLocationOpened(location);
+            Info(String.format("%s opened up", location));
     }
 
     @Test (groups = {"smokeTest"})
@@ -113,12 +111,13 @@ public class PodiumTestCases extends Pages {
         Step("Click on first location in location list");
             podiumModal.SelectFirstLocation();
 
-        Step("Input name in Name text field");
+        Step("Input name in Name text input");
             podiumModal.SetTextInNameInput(name, 5, null);
             Sleep(1);
 
         Step("Verify text was put into name input");
             podiumModal.VerifyNameCheckmarkExists();
+            Info("Message has text input");
 
         Step("Input phone number into mobile phone text input");
             podiumModal.SetMobileNumberInput(telephone, 5, null);
@@ -127,21 +126,17 @@ public class PodiumTestCases extends Pages {
         Step("Verify phone number was put into input");
             podiumModal.VerifyMobileNumberCheckmarkExists();
 
-        Step("Input message in message text field");
-        // //*[local-name()='svg']//*[local-name()='g']//*[@d='M 50 0 A 50 50 0 0 1 50 0']
-        // //*[contains(@d, 'M 50 0 A 50 50 0 0 1 50 0' )]
-        SeleniumControl confirm = new SeleniumControl(By.xpath("//*[contains(@d, 'M 50 0 A 50 50 0 0 1 50 0' )]"));
-        //podiumModal.SetMessageInput(message, 5, null);
-        // TODO: Idea, check is long xpath exists. It does change and this proves icon changed.
-        //  Create a method that it is not longer visible
+        Step("Input message in message text input");
+            podiumModal.SetMessageInput(message, 5, null);
+            Sleep(1);
 
-        //confirm.IsVisible(5);
-        String tury = confirm.getAttribute("d");
+        Step("Verify message has input");
+            podiumModal.VerifyMessageHasInput();
+            Info("Message has text input");
 
         Step("Verify all inputs have data");
             podiumModal.VerifyAllInputsComplete();
             Info("All inputs filled out and send button is valid");
-
     }
 
     @Test (groups = {"regressionTest"})
@@ -191,10 +186,68 @@ public class PodiumTestCases extends Pages {
 
         Step("Confirm message modal is still open by inputting text into message input");
             podiumModal.SetMessageInput(message, 5, null);
-            Info(String.format("Inputted '%s' into message text field", message));
+            Sleep(1);
 
         Step("Verify text was inputted into message input");
-        // TODO: Verify text was put in
+            podiumModal.VerifyMessageHasInput();
+            Info("Message has text input");
+    }
 
+    @Test (groups = {"smokeTest"})
+    @Description("Test to prove location searchbar works.")
+    public void TestLocationSearchBar() throws Exception
+    {
+        String bountifulZIP = "84043";
+        String bountifulStreet = "E Main St";
+        String bountifulCity = "Lehi";
+        String bountifulBuildingNum = "1402";
+        String bountifulName = "Bountiful";
+
+        Step("Go to Podium Website");
+            GoToURL("https://demo.podium.tools/qa-webchat-lorw/");
+
+        Step("Go immediately to Podium modal");
+            Sleep(1);
+            podiumBubble.JumpToPodiumModal();
+
+        Step("Input Bountiful ZIP code into searchbar");
+            podiumModal.SetLocationSearchBarText(bountifulZIP);
+            Sleep(1);
+
+        Step("Verify first location in list is Bountiful");
+            podiumModal.VerifySearchBarInputCorrect(bountifulZIP);
+            Info("Correctly searched for Bountiful ZIP");
+
+        Step("Input Bountiful name into searchbar");
+            podiumModal.SetLocationSearchBarText(bountifulName);
+            Sleep(1);
+
+        Step("Verify first location in list is Bountiful");
+            podiumModal.VerifySearchBarInputCorrect(bountifulName);
+            Info("Correctly searched for Bountiful name");
+
+        Step("Input Bountiful building number into searchbar");
+            podiumModal.SetLocationSearchBarText(bountifulBuildingNum);
+            Sleep(1);
+
+        Step("Verify first location in list is Bountiful");
+            podiumModal.VerifySearchBarInputCorrect(bountifulBuildingNum);
+            Info("Correctly searched for Bountiful building name");
+
+        Step("Input Bountiful street name into searchbar");
+            podiumModal.SetLocationSearchBarText(bountifulStreet);
+            Sleep(1);
+
+        Step("Verify first location in list is Bountiful");
+            podiumModal.VerifySearchBarInputCorrect(bountifulStreet);
+            Info("Correctly searched for Bountiful street name");
+
+        Step("Input Bountiful city into searchbar");
+            podiumModal.SetLocationSearchBarText(bountifulCity);
+            Sleep(1);
+
+        Step("Verify first location in list in Bountiful");
+            podiumModal.VerifySearchBarInputCorrect(bountifulCity);
+            Info("Correctly searched for Bountiful city");
     }
 }
