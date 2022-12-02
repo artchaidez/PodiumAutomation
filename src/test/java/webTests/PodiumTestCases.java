@@ -35,10 +35,10 @@ public class PodiumTestCases extends Pages {
         Step("Switch to Podium bubble iframe");
             Sleep(1);
             podiumBubble.GoToPodiumBubbleFrame();
-            Info("Currently within Podium bubble iframe");
 
         Step("Click on Podium Bubble");
             podiumBubble.ClickOnPodiumButton();
+            Info("Currently within Podium bubble");
 
         Step("Switch to Podium modal iframe");
             podiumBubble.GoToPodiumModalFrame();
@@ -80,7 +80,7 @@ public class PodiumTestCases extends Pages {
             Sleep(1);
             podiumBubble.JumpToPodiumModal();
 
-        Step(String.format("Confirm %s is in location list", location));
+        Step(String.format("Verify %s is in location list", location));
             SeleniumControl locationBtn = new SeleniumControl(By.xpath(String.format("//*[text()= \"%s\"]", location)));
             locationBtn.IsVisible(5);
             Info(String.format("%s is in the modal", location));
@@ -88,7 +88,7 @@ public class PodiumTestCases extends Pages {
         Step(String.format("Click on %s", location));
             locationBtn.Click(5);
 
-        Step(String.format("Confirm %s opened up", location));
+        Step(String.format("Verify %s opened up", location));
             podiumModal.VerifyCorrectLocationOpened(location);
             Info(String.format("%s opened up", location));
     }
@@ -184,7 +184,7 @@ public class PodiumTestCases extends Pages {
         Step("Click on return arrow");
             podiumModal.ClickOnReturnArrowBtn();
 
-        Step("Confirm message modal is still open by inputting text into message input");
+        Step("Verify message modal is still open by inputting text into message input");
             podiumModal.SetMessageInput(message, 5, null);
             Sleep(1);
 
