@@ -11,7 +11,11 @@ Gradle DSL: Groovy
 
 Notes: TestReturnButtonDoesNotWork() is to prove a bug exists with the return arrow.
 On the message widget, clicking on the arrow does not return to the location list
-widget.
+widget. 
+
+When inputting text into the location searchbar, there is already text in the textbox.
+On my Windows machine, this will be cleared when new text is input. On Mac, it needs
+to be cleared.
 
 While not a bug, the classNames for the text fields in the message widget are
 inconsistent. The naming convention should be consistent to prevent bugs and issues

@@ -12,8 +12,6 @@ public class PodiumBubble extends AutoBase {
 
     SeleniumControl modal = new SeleniumControl(By.xpath("//*[contains(@class, 'SearchInput')]"));
 
-
-
     /** Switch to podium-bubble iframe.*/
     public void GoToPodiumBubbleFrame()
     {

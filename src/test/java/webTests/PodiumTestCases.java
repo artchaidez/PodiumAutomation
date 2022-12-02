@@ -2,8 +2,9 @@ package webTests;
 
 import jdk.jfr.Description;
 import org.openqa.selenium.By;
-import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 import pages.Pages;
 import webTestFramework.SeleniumControl;
 
@@ -59,6 +60,10 @@ public class PodiumTestCases extends Pages {
             Sleep(1);
             podiumBubble.JumpToPodiumModal();
 
+        Step("Verify on Podium modal");
+            podiumModal.VerifyLocationSearchBar();
+            Info("Podium modal open");
+
         Step("Click on first location in location list");
             podiumModal.SelectFirstLocation();
 
@@ -108,6 +113,10 @@ public class PodiumTestCases extends Pages {
             Sleep(1);
             podiumBubble.JumpToPodiumModal();
 
+        Step("Verify on Podium modal");
+            podiumModal.VerifyLocationSearchBar();
+            Info("Podium modal open");
+
         Step("Click on first location in location list");
             podiumModal.SelectFirstLocation();
 
@@ -150,6 +159,10 @@ public class PodiumTestCases extends Pages {
             Sleep(1);
             podiumBubble.JumpToPodiumModal();
 
+        Step("Verify on Podium modal");
+            podiumModal.VerifyLocationSearchBar();
+            Info("Podium modal open");
+
         Step("Click on 'use is subject to terms'");
             podiumModal.ClickOnTermsButton();
 
@@ -173,6 +186,10 @@ public class PodiumTestCases extends Pages {
         Step("Go immediately to Podium modal");
             Sleep(1);
             podiumBubble.JumpToPodiumModal();
+
+        Step("Verify on Podium modal");
+            podiumModal.VerifyLocationSearchBar();
+            Info("Podium modal open");
 
         Step("Click on first location in location list");
             podiumModal.SelectFirstLocation();
@@ -209,6 +226,10 @@ public class PodiumTestCases extends Pages {
         Step("Go immediately to Podium modal");
             Sleep(1);
             podiumBubble.JumpToPodiumModal();
+
+        Step("Verify on Podium modal");
+            podiumModal.VerifyLocationSearchBar();
+            Info("Podium modal open");
 
         Step("Input Bountiful ZIP code into searchbar");
             podiumModal.SetLocationSearchBarText(bountifulZIP);

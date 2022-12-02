@@ -1,9 +1,7 @@
 package webTestFramework;
 
 import autoFramework.AutoBase;
-import com.thoughtworks.selenium.Selenium;
 import com.thoughtworks.selenium.SeleniumException;
-import com.thoughtworks.selenium.webdriven.commands.IsVisible;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
@@ -40,7 +38,6 @@ public class SeleniumControl extends AutoBase {
         return getWebElement().getText();
     }
 
-    //TODO: Delete
     public String getAttribute(String name)
     {
         return getWebElement().getCssValue(name);

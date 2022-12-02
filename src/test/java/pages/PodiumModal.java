@@ -35,6 +35,8 @@ public class PodiumModal extends AutoBase {
 
     SeleniumControl messageCharCount = new SeleniumControl(By.xpath("//*[contains(@stroke, '#3074dc')]"));
 
+    SeleniumControl clearLocationSearchBar = new SeleniumControl(By.xpath("//*[@class='SearchInput__Reset']"));
+
     public void SelectFirstLocation() throws Exception
     {
         firstLocation.Click(5);
@@ -113,30 +115,26 @@ public class PodiumModal extends AutoBase {
         return locationText.getText();
     }
 
-    public String GetAddressInMessageModal()
-    {
-        return addressText.getText();
-    }
-
     public void VerifyLocationSearchBar()
     {
         locationSearchBar.IsVisible(5);
     }
 
-    // TODO: get to work?
-    public String GetLocationSearchBarText()
-    {
-        return locationSearchBar.getText();
-    }
-
     public void SetLocationSearchBarText(String zipAddress) throws Exception
     {
+        if (clearLocationSearchBar.IsVisible(5))
+            ClickClearSearchBar();
         locationSearchBar.SetText(zipAddress, 5, null);
     }
 
     public void VerifyCorrectLocationOpened(String data) throws Exception
     {
         Assert.assertEquals(GetLocationInMessageModal(), data);
+    }
+
+    public void ClickClearSearchBar() throws Exception
+    {
+        clearLocationSearchBar.Click(5);
     }
 
 }
