@@ -10,14 +10,14 @@ JDK: Amazon Corretto 17.0.5 (Windows) \
 Gradle DSL: Groovy
 
 Notes: TestReturnButtonDoesNotWork() is to prove a bug exists with the return arrow.
-On the message widget, clicking on the arrow does not return to the location list
-widget. 
+On the message modal, clicking on the arrow does not return to the location list
+modal. 
 
 When inputting text into the location searchbar, there is already text in the textbox.
 On my Windows machine, this will be cleared when new text is input. On Mac, it needs
 to be cleared.
 
-While not a bug, the classNames for the text fields in the message widget are
+While not a bug, the classNames for the text fields in the message modal are
 inconsistent. The naming convention should be consistent to prevent bugs and issues
 for devs and QAs from occurring. Name has two different 'Input',
 mobile phone contains an extra 'TextInput' and '--tel', and
